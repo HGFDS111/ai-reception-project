@@ -15,3 +15,13 @@ export const createServiceTemplate = async (req, res) => {
     res.status(500).json({ message: 'Error creating service template' });
   }
 };
+export const getServiceTemplates = async (req, res) => {
+  try {
+    const serviceTemplates = await ServiceTemplate.findAll();
+
+    res.status(200).json(serviceTemplates);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error getting service templates' });
+  }
+};
