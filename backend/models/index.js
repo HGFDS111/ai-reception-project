@@ -11,7 +11,12 @@ import DialogueScript from './dialogueScript.model.js';
 User.hasMany(Business, { foreignKey: 'userId' });
 Business.belongsTo(User, { foreignKey: 'userId' });
 
-// Business ↔ Service (one-to-many)
+// Business ↔ Client (one-to-many)
+
+Business.hasMany(Client, { foreignKey: 'businessId' });
+Client.belongsTo(Business, { foreignKey: 'businessId' });
+
+// Business ↔ CallSession (one-to-many)
 Business.hasMany(CallSession, { foreignKey: 'businessId' });
 CallSession.belongsTo(Business, { foreignKey: 'businessId' });
 
