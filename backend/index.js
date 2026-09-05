@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 import { sequelize } from './models/index.js';
 import authRoutes from './routes/auth.routes.js';
 import businessRoutes from './routes/business.routes.js';
-
+import serviceTemplateRoutes from './routes/serviceTemplate.routes.js';
+import businessServiceRoutes from './routes/businessService.routes.js';
 
 dotenv.config();
 
@@ -17,8 +18,12 @@ app.use('/api/auth', authRoutes);
 
 app.use('/api/business', businessRoutes);
 
+app.use('/api/service-templates', serviceTemplateRoutes);
+
+app.use('/api/business', businessServiceRoutes);
+
 app.get('/', (req, res) => {
-  res.send('AI Reception API работает');
+  res.send('AI Reception API is running');
 });
 
 const PORT = process.env.PORT || 5000;
