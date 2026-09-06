@@ -8,6 +8,7 @@ import serviceTemplateRoutes from './routes/serviceTemplate.routes.js';
 import businessServiceRoutes from './routes/businessService.routes.js';
 import clientRoutes from './routes/client.routes.js';
 import callSessionRoutes from './routes/callSession.routes.js';
+import dialogueScriptRoutes from './routes/dialogueScript.routes.js';
 
 dotenv.config();
 
@@ -27,6 +28,8 @@ app.use('/api/business', businessServiceRoutes);
 app.use('/api/clients', clientRoutes);
 
 app.use('/api/calls', callSessionRoutes);
+
+app.use('/api/dialogue-scripts', dialogueScriptRoutes);
 
 app.get('/', (req, res) => {
   res.send('AI Reception API is running');
