@@ -49,3 +49,24 @@ export const createCallSession = async (req, res) => {
     res.status(500).json({ message: 'Error creating call session' });
   }
 };
+
+export const getCallSessions = async (req, res) => {
+  try {
+    const callSessions = await CallSession.findAll({
+      include: [
+        {
+          model: Business,
+          where: {
+            userId: req.user.userId,
+          },
+          attributes: [],
+        },
+      ],
+    });
+
+    res.status(200).json(callSessions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error getting call sessions' });
+  }
+};
