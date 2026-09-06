@@ -39,7 +39,7 @@ const startServer = async () => {
     await sequelize.authenticate();
     console.log('Подключение к БД успешно установлено');
 
-    await sequelize.sync({ alter: true });
+    await sequelize.sync();
     console.log('Модели синхронизированы с базой данных');
 
     app.listen(PORT, () => {
