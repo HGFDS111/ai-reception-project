@@ -48,3 +48,68 @@ export const getDialogueScripts = async (req, res) => {
     res.status(500).json({ message: 'Error getting dialogue scripts' });
   }
 };
+
+export const updateDialogueScript = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { greeting, objectionFlow } = req.body;
+
+    const dialogueScript = await DialogueScript.findOne({
+      where: { id },
+      include: [
+        {
+          model: Business,
+          where: {
+            userId: req.user.userId,
+          },
+          attributes: [],
+        },
+      ],
+    });
+
+    if (!dialogueScript) {
+      return res.status(404).json({ message: 'Dialogue script not found' });
+    }
+
+    dialogueScript.greeting = greeting ?? dialogueScript.greeting;
+    dialogueScript.objectionFlow =
+      objectionFlow ?? dialogueScript.objectionFlow;
+
+    await dialogueScript.save();
+
+    res.status(200).json(dialogueScript);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error updating dialogue script' });
+  }
+};
+
+export const deleteDialogueScript = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const dialogueScript = await DialogueScript.findOne({
+      where: { id },
+      include: [
+        {
+          model: Business,
+          where: {
+            userId: req.user.userId,
+          },
+          attributes: [],
+        },
+      ],
+    });
+
+    if (!dialogueScript) {
+      return res.status(404).json({ message: 'Dialogue script not found' });
+    }
+
+    await dialogueScript.destroy();
+
+    res.status(200).json({ message: 'Dialogue script deleted' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error deleting dialogue script' });
+  }
+};
