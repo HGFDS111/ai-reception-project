@@ -1,13 +1,24 @@
 import { useGetCallsQuery } from "../../entities/call/callApi";
+import { useGetClientsQuery } from "../../entities/client/clientApi";
 
 function CallsPage() {
-  const { data: calls, isLoading, error } = useGetCallsQuery();
+  const {
+    data: calls,
+    isLoading: isCallsLoading,
+    error: callsError,
+  } = useGetCallsQuery();
 
-  if (isLoading) {
+  const {
+    data: clients,
+    isLoading: isClientsLoading,
+    error: clientsError,
+  } = useGetClientsQuery();
+
+  if (isCallsLoading || isClientsLoading) {
     return <p>Loading calls...</p>;
   }
 
-  if (error) {
+  if (callsError || clientsError) {
     return <p>Failed to load calls</p>;
   }
 
@@ -19,7 +30,9 @@ function CallsPage() {
       <ul>
         {calls?.map((call) => (
           <li key={call.id}>
-            Call #{call.id} — {call.result} — client {call.clientId}
+            Call #{call.id} — {call.result} —{" "}
+            {clients?.find((client) => client.id === call.clientId)?.name ??
+              "Unknown client"}
           </li>
         ))}
       </ul>
