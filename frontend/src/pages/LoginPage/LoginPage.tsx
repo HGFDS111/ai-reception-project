@@ -1,0 +1,59 @@
+import { useState, type FormEvent } from "react";
+import { useLoginMutation } from "../../entities/auth/authApi";
+import { useNavigate } from 'react-router-dom'
+
+function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [login, { isLoading, error }] = useLoginMutation();
+  const navigate = useNavigate()
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      const result = await login({ email, password }).unwrap();
+
+      localStorage.setItem("token", result.token);
+      navigate("/")
+    } catch (loginError) {
+      console.error(loginError);
+    }
+  };
+
+  return (
+    <main>
+      <h1>Login</h1>
+
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        </div>
+
+        {error && <p>Login failed</p>}
+
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Logging in..." : "Login"}
+        </button>
+      </form>
+    </main>
+  );
+}
+
+export default LoginPage;
