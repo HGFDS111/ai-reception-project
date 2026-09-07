@@ -5,6 +5,7 @@ import CallsPage from "./pages/CallsPage/CallsPage";
 import Navigation from "./widgets/Navigation/Navigation";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import ProtectedRoute from "./app/ProtectedRoute";
+import BusinessesPage from "./pages/BusinessesPage/BusinessesPage";
 
 function App() {
   return (
@@ -36,6 +37,16 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/businesses"
+          element={
+            <ProtectedRoute>
+              <BusinessesPage />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="/login" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
