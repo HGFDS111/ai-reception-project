@@ -13,6 +13,7 @@ function Navigation() {
       <Link to="/businesses">Businesses</Link>
       <Link to="/clients">Clients</Link>
       <Link to="/calls">Calls</Link>
+      <Link to="/dialogue-scripts">Dialogue Scripts</Link>
 
       <button type="button" onClick={handleLogout}>
         Logout

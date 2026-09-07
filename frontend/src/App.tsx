@@ -6,6 +6,7 @@ import Navigation from "./widgets/Navigation/Navigation";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import ProtectedRoute from "./app/ProtectedRoute";
 import BusinessesPage from "./pages/BusinessesPage/BusinessesPage";
+import DialogueScriptsPage from "./pages/DialogueScriptsPage/DialogueScriptsPage";
 
 function App() {
   return (
@@ -43,6 +44,15 @@ function App() {
           element={
             <ProtectedRoute>
               <BusinessesPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/dialogue-scripts"
+          element={
+            <ProtectedRoute>
+              <DialogueScriptsPage />
             </ProtectedRoute>
           }
         />
