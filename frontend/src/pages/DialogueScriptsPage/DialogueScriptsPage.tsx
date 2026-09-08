@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import {
   useGetDialogueScriptsQuery,
   useCreateDialogueScriptMutation,
+  useUpdateDialogueScriptMutation,
   useDeleteDialogueScriptMutation,
 } from "../../entities/dialogueScript/dialogueScriptApi";
 
@@ -15,21 +16,62 @@ function DialogueScriptsPage() {
   const [createDialogueScript, { isLoading: isCreating }] =
     useCreateDialogueScriptMutation();
 
+  const [updateDialogueScript, { isLoading: isUpdating }] =
+    useUpdateDialogueScriptMutation();
+
   const [deleteDialogueScript, { isLoading: isDeleting }] =
     useDeleteDialogueScriptMutation();
 
   const [businessId, setBusinessId] = useState("");
   const [greeting, setGreeting] = useState("");
   const [objectionFlow, setObjectionFlow] = useState("");
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (editingId !== null) {
+      await updateDialogueScript({
+        id: editingId,
+        greeting,
+        objectionFlow: objectionFlow || null,
+      }).unwrap();
+
+      setEditingId(null);
+      setBusinessId("");
+      setGreeting("");
+      setObjectionFlow("");
+
+      return;
+    }
 
     await createDialogueScript({
       businessId: Number(businessId),
       greeting,
       objectionFlow: objectionFlow || null,
     }).unwrap();
+    setBusinessId("");
+    setGreeting("");
+    setObjectionFlow("");
+  };
+
+  const handleEdit = (script: {
+    id: number;
+    businessId: number;
+    greeting: string;
+    objectionFlow: string | null;
+  }) => {
+    setEditingId(script.id);
+    setBusinessId(String(script.businessId));
+    setGreeting(script.greeting);
+    setObjectionFlow(script.objectionFlow ?? "");
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setBusinessId("");
+    setGreeting("");
+    setObjectionFlow("");
   };
 
   if (isLoading) {
@@ -74,9 +116,25 @@ function DialogueScriptsPage() {
           />
         </div>
 
-        <button type="submit" disabled={isCreating}>
-          {isCreating ? "Creating..." : "Create dialogue script"}
+        <button type="submit" disabled={isCreating || isUpdating}>
+          {editingId !== null
+            ? isUpdating
+              ? "Updating..."
+              : "Update dialogue script"
+            : isCreating
+              ? "Creating..."
+              : "Create dialogue script"}
         </button>
+
+        {editingId !== null && (
+          <button
+            type="button"
+            onClick={handleCancelEdit}
+            disabled={isUpdating}
+          >
+            Cancel
+          </button>
+        )}
       </form>
 
       <ul>
@@ -85,6 +143,9 @@ function DialogueScriptsPage() {
             <strong>{script.greeting}</strong>
             <p>{script.objectionFlow ?? "No objection flow"}</p>
             <p>Business ID: {script.businessId}</p>
+            <button type="button" onClick={() => handleEdit(script)}>
+              Edit
+            </button>
             <button
               type="button"
               onClick={() => deleteDialogueScript(script.id)}

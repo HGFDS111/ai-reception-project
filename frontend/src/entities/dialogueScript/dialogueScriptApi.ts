@@ -13,6 +13,12 @@ type CreateDialogueScriptRequest = {
   objectionFlow: string | null;
 };
 
+type UpdateDialogueScriptRequest = {
+  id: number;
+  greeting: string;
+  objectionFlow: string | null;
+};
+
 export const dialogueScriptApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getDialogueScripts: builder.query<DialogueScript[], void>({
@@ -32,6 +38,21 @@ export const dialogueScriptApi = baseApi.injectEndpoints({
       invalidatesTags: ["DialogueScript"],
     }),
 
+    updateDialogueScript: builder.mutation<
+      DialogueScript,
+      UpdateDialogueScriptRequest
+    >({
+      query: ({ id, greeting, objectionFlow }) => ({
+        url: `/dialogue-scripts/${id}`,
+        method: "PUT",
+        body: {
+          greeting,
+          objectionFlow,
+        },
+      }),
+      invalidatesTags: ["DialogueScript"],
+    }),
+
     deleteDialogueScript: builder.mutation<void, number>({
       query: (id) => ({
         url: `/dialogue-scripts/${id}`,
@@ -46,4 +67,5 @@ export const {
   useGetDialogueScriptsQuery,
   useCreateDialogueScriptMutation,
   useDeleteDialogueScriptMutation,
+  useUpdateDialogueScriptMutation,
 } = dialogueScriptApi;
