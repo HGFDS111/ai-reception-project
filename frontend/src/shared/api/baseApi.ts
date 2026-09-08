@@ -17,5 +17,7 @@ export const baseApi = createApi({
     },
   }),
 
+  tagTypes: ['DialogueScript'],
+  
   endpoints: () => ({}),
 })

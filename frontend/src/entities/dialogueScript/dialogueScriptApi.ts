@@ -1,18 +1,38 @@
-import { baseApi } from '../../shared/api/baseApi'
+import { baseApi } from "../../shared/api/baseApi";
 
 export type DialogueScript = {
-  id: number
-  greeting: string
-  objectionFlow: string | null
-  businessId: number
-}
+  id: number;
+  greeting: string;
+  objectionFlow: string | null;
+  businessId: number;
+};
+
+type CreateDialogueScriptRequest = {
+  businessId: number;
+  greeting: string;
+  objectionFlow: string | null;
+};
 
 export const dialogueScriptApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getDialogueScripts: builder.query<DialogueScript[], void>({
-      query: () => '/dialogue-scripts',
+      query: () => "/dialogue-scripts",
+      providesTags: ["DialogueScript"],
+    }),
+
+    createDialogueScript: builder.mutation<
+      DialogueScript,
+      CreateDialogueScriptRequest
+    >({
+      query: (body) => ({
+        url: "/dialogue-scripts",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["DialogueScript"],
     }),
   }),
-})
+});
 
-export const { useGetDialogueScriptsQuery } = dialogueScriptApi
+export const { useGetDialogueScriptsQuery, useCreateDialogueScriptMutation } =
+  dialogueScriptApi;
