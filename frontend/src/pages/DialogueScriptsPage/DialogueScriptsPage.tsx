@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 import {
   useGetDialogueScriptsQuery,
   useCreateDialogueScriptMutation,
+  useDeleteDialogueScriptMutation,
 } from "../../entities/dialogueScript/dialogueScriptApi";
 
 function DialogueScriptsPage() {
@@ -13,6 +14,9 @@ function DialogueScriptsPage() {
 
   const [createDialogueScript, { isLoading: isCreating }] =
     useCreateDialogueScriptMutation();
+
+  const [deleteDialogueScript, { isLoading: isDeleting }] =
+    useDeleteDialogueScriptMutation();
 
   const [businessId, setBusinessId] = useState("");
   const [greeting, setGreeting] = useState("");
@@ -74,6 +78,23 @@ function DialogueScriptsPage() {
           {isCreating ? "Creating..." : "Create dialogue script"}
         </button>
       </form>
+
+      <ul>
+        {dialogueScripts?.map((script) => (
+          <li key={script.id}>
+            <strong>{script.greeting}</strong>
+            <p>{script.objectionFlow ?? "No objection flow"}</p>
+            <p>Business ID: {script.businessId}</p>
+            <button
+              type="button"
+              onClick={() => deleteDialogueScript(script.id)}
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Deleting..." : "Delete"}
+            </button>
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }

@@ -31,8 +31,19 @@ export const dialogueScriptApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["DialogueScript"],
     }),
+
+    deleteDialogueScript: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/dialogue-scripts/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["DialogueScript"],
+    }),
   }),
 });
 
-export const { useGetDialogueScriptsQuery, useCreateDialogueScriptMutation } =
-  dialogueScriptApi;
+export const {
+  useGetDialogueScriptsQuery,
+  useCreateDialogueScriptMutation,
+  useDeleteDialogueScriptMutation,
+} = dialogueScriptApi;
