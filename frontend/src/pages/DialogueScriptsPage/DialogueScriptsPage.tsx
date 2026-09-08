@@ -5,6 +5,7 @@ import {
   useUpdateDialogueScriptMutation,
   useDeleteDialogueScriptMutation,
 } from "../../entities/dialogueScript/dialogueScriptApi";
+import { useGetBusinessesQuery } from "../../entities/business/businessApi";
 
 function DialogueScriptsPage() {
   const {
@@ -12,6 +13,8 @@ function DialogueScriptsPage() {
     isLoading,
     error,
   } = useGetDialogueScriptsQuery();
+
+  const { data: businesses } = useGetBusinessesQuery();
 
   const [createDialogueScript, { isLoading: isCreating }] =
     useCreateDialogueScriptMutation();
@@ -88,13 +91,21 @@ function DialogueScriptsPage() {
       <p>Dialogue scripts found: {dialogueScripts?.length ?? 0}</p>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="businessId">Business ID</label>
-          <input
+          <label htmlFor="businessId">Business</label>
+          <select
             id="businessId"
-            type="number"
             value={businessId}
             onChange={(event) => setBusinessId(event.target.value)}
-          />
+            disabled={editingId !== null}
+          >
+            <option value="">Select business</option>
+
+            {businesses?.map((business) => (
+              <option key={business.id} value={business.id}>
+                {business.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>
@@ -142,7 +153,12 @@ function DialogueScriptsPage() {
           <li key={script.id}>
             <strong>{script.greeting}</strong>
             <p>{script.objectionFlow ?? "No objection flow"}</p>
-            <p>Business ID: {script.businessId}</p>
+            <p>
+              Business:{" "}
+              {businesses?.find((business) => business.id === script.businessId)
+                ?.name ?? "Unknown business"}
+            </p>
+
             <button type="button" onClick={() => handleEdit(script)}>
               Edit
             </button>
