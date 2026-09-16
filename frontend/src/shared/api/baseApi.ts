@@ -17,12 +17,14 @@ export const baseApi = createApi({
     },
   }),
 
- tagTypes: [
-  "DialogueScript",
-  "Business",
-  "ServiceTemplate",
-  "BusinessService",
-],
+  tagTypes: [
+    "DialogueScript",
+    "Business",
+    "ServiceTemplate",
+    "BusinessService",
+    "Call",
+    "Client",
+  ],
 
   endpoints: () => ({}),
 });

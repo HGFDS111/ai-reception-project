@@ -1,4 +1,9 @@
-import { useGetCallsQuery } from "../../entities/call/callApi";
+import { useState, type FormEvent } from "react";
+import { useGetBusinessesQuery } from "../../entities/business/businessApi";
+import {
+  useGetCallsQuery,
+  useCreateCallMutation,
+} from "../../entities/call/callApi";
 import { useGetClientsQuery } from "../../entities/client/clientApi";
 
 function CallsPage() {
@@ -8,11 +13,40 @@ function CallsPage() {
     error: callsError,
   } = useGetCallsQuery();
 
+  const [createCall, { isLoading: isCreatingCall }] = useCreateCallMutation();
+
+  const { data: businesses } = useGetBusinessesQuery();
+
+  const [selectedBusinessId, setSelectedBusinessId] = useState("");
+
+  const [phone, setPhone] = useState("");
+
+  const [name, setName] = useState("");
+
+  const [result, setResult] = useState<
+    "booked" | "rejected" | "callback_requested"
+  >("callback_requested");
+
   const {
     data: clients,
     isLoading: isClientsLoading,
     error: clientsError,
   } = useGetClientsQuery();
+
+  const handleCreateCall = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    await createCall({
+      businessId: Number(selectedBusinessId),
+      phone,
+      name: name || null,
+      result,
+    }).unwrap();
+
+    setPhone("");
+    setName("");
+    setResult("callback_requested");
+  };
 
   if (isCallsLoading || isClientsLoading) {
     return <p>Loading calls...</p>;
@@ -26,13 +60,80 @@ function CallsPage() {
     <main>
       <h1>Calls</h1>
       <p>Calls found: {calls?.length ?? 0}</p>
+      <form onSubmit={handleCreateCall}>
+        <div>
+          <label htmlFor="business">Business</label>
+          <select
+            id="business"
+            value={selectedBusinessId}
+            onChange={(event) => setSelectedBusinessId(event.target.value)}
+            required
+          >
+            <option value="">Select business</option>
+
+            {businesses?.map((business) => (
+              <option key={business.id} value={business.id}>
+                {business.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="phone">Phone</label>
+          <input
+            id="phone"
+            type="text"
+            value={phone}
+            onChange={(event) => setPhone(event.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="name">Name</label>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="result">Result</label>
+          <select
+            id="result"
+            value={result}
+            onChange={(event) =>
+              setResult(
+                event.target.value as
+                  | "booked"
+                  | "rejected"
+                  | "callback_requested",
+              )
+            }
+          >
+            <option value="callback_requested">Callback requested</option>
+            <option value="booked">Booked</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+        <button type="submit" disabled={isCreatingCall}>
+          {isCreatingCall ? "Creating..." : "Create call"}
+        </button>
+      </form>
 
       <ul>
         {calls?.map((call) => (
           <li key={call.id}>
             Call #{call.id} — {call.result} —{" "}
             {clients?.find((client) => client.id === call.clientId)?.name ??
-              "Unknown client"}
+              "Unknown client"}{" "}
+            —{" "}
+            {clients?.find((client) => client.id === call.clientId)?.phone ??
+              "Unknown phone"}{" "}
+            —{" "}
+            {businesses?.find((business) => business.id === call.businessId)
+              ?.name ?? "Unknown business"}{" "}
+            — {new Date(call.startedAt).toLocaleString()}
           </li>
         ))}
       </ul>

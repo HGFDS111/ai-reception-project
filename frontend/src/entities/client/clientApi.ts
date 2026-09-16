@@ -11,6 +11,7 @@ export const clientApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getClients: builder.query<Client[], void>({
       query: () => '/clients',
+      providesTags: ['Client'],
     }),
   }),
 })
