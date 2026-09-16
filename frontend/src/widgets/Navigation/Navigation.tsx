@@ -11,6 +11,7 @@ function Navigation() {
     <nav>
       <Link to="/">Dashboard</Link>
       <Link to="/businesses">Businesses</Link>
+      <Link to="/services">Services</Link>
       <Link to="/clients">Clients</Link>
       <Link to="/calls">Calls</Link>
       <Link to="/dialogue-scripts">Dialogue Scripts</Link>

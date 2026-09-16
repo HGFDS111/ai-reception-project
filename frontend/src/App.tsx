@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import ProtectedRoute from "./app/ProtectedRoute";
 import BusinessesPage from "./pages/BusinessesPage/BusinessesPage";
 import DialogueScriptsPage from "./pages/DialogueScriptsPage/DialogueScriptsPage";
+import ServicesPage from "./pages/ServicesPage/ServicesPage";
 
 function App() {
   return (
@@ -53,6 +54,15 @@ function App() {
           element={
             <ProtectedRoute>
               <DialogueScriptsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/services"
+          element={
+            <ProtectedRoute>
+              <ServicesPage />
             </ProtectedRoute>
           }
         />
