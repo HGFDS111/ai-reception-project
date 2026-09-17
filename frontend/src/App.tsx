@@ -1,4 +1,9 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import DashboardPage from "./pages/DashboardPage/DashboardPage";
 import ClientsPage from "./pages/ClientsPage/ClientsPage";
 import CallsPage from "./pages/CallsPage/CallsPage";
@@ -9,10 +14,20 @@ import BusinessesPage from "./pages/BusinessesPage/BusinessesPage";
 import DialogueScriptsPage from "./pages/DialogueScriptsPage/DialogueScriptsPage";
 import ServicesPage from "./pages/ServicesPage/ServicesPage";
 
+function NavigationWrapper() {
+  const location = useLocation();
+
+  if (location.pathname === "/login") {
+    return null;
+  }
+
+  return <Navigation />;
+}
+
 function App() {
   return (
     <BrowserRouter>
-      <Navigation />
+      <NavigationWrapper />
       <Routes>
         <Route
           path="/"
