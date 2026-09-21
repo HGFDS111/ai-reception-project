@@ -3,6 +3,7 @@ import { useGetClientsQuery } from "../../entities/client/clientApi";
 import { useGetCallsQuery } from "../../entities/call/callApi";
 import { useGetServiceTemplatesQuery } from "../../entities/serviceTemplate/serviceTemplateApi";
 import { useGetDialogueScriptsQuery } from "../../entities/dialogueScript/dialogueScriptApi";
+import styles from "./DashboardPage.module.css";
 
 function DashboardPage() {
   const { data: businesses } = useGetBusinessesQuery();
@@ -27,9 +28,11 @@ function DashboardPage() {
   )
   .slice(0, 5);
   return (
-    <main>
-      <h1>Dashboard</h1>
-      <p>Welcome to AI Reception</p>
+    <section className={styles.page}>
+      <div className={styles.header}>
+  <h1>Dashboard</h1>
+  <p>Welcome to AI Reception</p>
+</div>
       <p>Businesses: {businesses?.length ?? 0}</p>
       <p>Clients: {clients?.length ?? 0}</p>
       <p>Calls: {calls?.length ?? 0}</p>
@@ -53,7 +56,7 @@ function DashboardPage() {
 </li>
         ))}
       </ul>
-    </main>
+    </section>
   );
 }
 

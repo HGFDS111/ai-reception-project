@@ -1,0 +1,141 @@
+.page {
+  min-height: 100vh;
+  background: #ffffff;
+  color: var(--color-text);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 64px;
+  border-bottom: 1px solid var(--color-border);
+}
+.brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.actions button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+  color: white;
+  font-weight: 600;
+}
+.actions button:hover {
+  background: var(--color-primary-dark);
+}
+.hero {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 70px 64px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.heroContent h1 {
+  margin: 0;
+  font-size: 52px;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.heroContent h1 span {
+  display: block;
+  color: var(--color-primary);
+}
+
+.eyebrow {
+  margin: 0 0 18px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #5f73a8;
+}
+.heroText {
+  max-width: 620px;
+  margin: 22px 0 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+.heroActions {
+  display: flex;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.heroActions button {
+  padding: 14px 22px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+.primaryButton {
+  border: none;
+  background: var(--color-primary);
+  color: white;
+}
+
+.primaryButton:hover {
+  background: var(--color-primary-dark);
+}
+
+.secondaryButton {
+  border: 1px solid var(--color-border);
+  background: white;
+  color: var(--color-text);
+}
+.heroVisual {
+  min-height: 420px;
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 35% 30%, #dff6f4 0, #dff6f4 28%, transparent 29%),
+    radial-gradient(circle at 70% 40%, #e8edff 0, #e8edff 32%, transparent 33%);
+  position: relative;
+  overflow: hidden;
+}
+.heroImage {
+  position: absolute;
+  right: 7%;
+  bottom: -66%;
+  height: 155%;
+  width: auto;
+  max-width: none;
+}
+
+.voiceCard {
+  position: absolute;
+  left: 8%;
+  top: 42%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--shadow-card);
+  z-index: 2;
+}
+
+.voiceCard strong {
+  font-size: 16px;
+}
+
+.voiceCard span {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}

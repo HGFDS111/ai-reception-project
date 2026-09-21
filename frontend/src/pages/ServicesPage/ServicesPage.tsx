@@ -9,6 +9,7 @@ import {
   useCreateBusinessServiceMutation,
   useGetBusinessServicesQuery,
 } from "../../entities/businessService/businessServiceApi";
+import styles from "./ServicesPage.module.css";
 
 function ServicesPage() {
   const {
@@ -83,21 +84,28 @@ function ServicesPage() {
   }
 
   return (
-    <main>
-      <h1>Services</h1>
-      <p>Services found: {serviceTemplates?.length ?? 0}</p>
-      <form onSubmit={handleSubmit}>
-        <div>
+    <section className={styles.page}>
+     <div className={styles.header}>
+  <h1>Services</h1>
+  <p>Services found: {serviceTemplates?.length ?? 0}</p>
+</div>
+<div className={styles.formsGrid}>
+
+
+      <form className={styles.card} onSubmit={handleSubmit}>
+        <h2 className={styles.cardTitle}>Create service</h2>
+        <div className={styles.field}>
           <label htmlFor="title">Title</label>
           <input
             id="title"
             type="text"
+            placeholder="Example: Dental Cleaning"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
             required
           />
         </div>
-        <div>
+        <div className={styles.field}>
           <label htmlFor="category">Category</label>
           <input
             id="category"
@@ -110,8 +118,9 @@ function ServicesPage() {
           {isCreating ? "Creating..." : "Create service"}
         </button>
       </form>
-      <form onSubmit={handleAddService}>
-        <div>
+      <form className={styles.card} onSubmit={handleAddService}>
+        <h2 className={styles.cardTitle}>Assign service to business</h2>
+        <div className={styles.field}>
           <label htmlFor="business">Business</label>
           <select
             id="business"
@@ -129,8 +138,8 @@ function ServicesPage() {
           </select>
         </div>
 
-        <div>
-          <label htmlFor="serviceTemplate">Service</label>
+        <div className={styles.field}>
+  <label htmlFor="serviceTemplate">Service</label>
           <select
             id="serviceTemplate"
             value={selectedServiceTemplateId}
@@ -149,7 +158,7 @@ function ServicesPage() {
           </select>
         </div>
 
-        <div>
+       <div className={styles.field}>
           <label htmlFor="price">Price</label>
           <input
             id="price"
@@ -160,7 +169,7 @@ function ServicesPage() {
           />
         </div>
 
-        <div>
+        <div className={styles.field}>
           <label htmlFor="customDescription">Custom description</label>
           <input
             id="customDescription"
@@ -173,29 +182,35 @@ function ServicesPage() {
           {isAddingService ? "Adding..." : "Add service to business"}
         </button>
       </form>
-
+</div>
       {selectedBusinessId && (
-        <div>
-          <h2>Business services</h2>
+        <div className={styles.businessServices}>
+          <h2 className={styles.sectionTitle}>Services for selected business</h2>
 
-          <ul>
-            {businessServices?.map((service) => (
-              <li key={service.id}>
-                {service.title} — {service.BusinessService.price}
-              </li>
-            ))}
-          </ul>
+          {businessServices?.length ? (
+  <ul>
+    {businessServices.map((service) => (
+      <li key={service.id}>
+        {service.title} — {service.BusinessService.price}
+      </li>
+    ))}
+  </ul>
+) : (
+  <p>No services assigned yet</p>
+)}
         </div>
       )}
 
-      <ul>
-        {serviceTemplates?.map((service) => (
+<h2 className={styles.sectionTitle}>Service templates</h2>
+
+      <ul className={styles.serviceList}>
+        {serviceTemplates?.map((service) => (          
           <li key={service.id}>
             {service.title} — {service.category ?? "No category"}
           </li>
         ))}
       </ul>
-    </main>
+    </section>
   );
 }
 

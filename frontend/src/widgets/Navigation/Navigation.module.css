@@ -1,0 +1,71 @@
+.navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  width: 240px;
+  padding: 24px 18px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 24px;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  background: var(--color-primary);
+  color: white;
+
+  font-weight: 700;
+}
+
+.brandName {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.link {
+  padding: 10px 12px;
+
+  border-radius: var(--radius-sm);
+
+  color: var(--color-text-secondary);
+}
+
+.active {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+
+  font-weight: 600;
+}
+
+.logout {
+  margin-top: auto;
+
+  padding: 10px 12px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: transparent;
+  color: var(--color-text);
+}

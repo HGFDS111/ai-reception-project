@@ -1,4 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import styles from "./Navigation.module.css";
 
 function Navigation() {
   const navigate = useNavigate();
@@ -7,20 +8,73 @@ function Navigation() {
     navigate("/login");
   };
 
-  return (
-    <nav>
-      <Link to="/">Dashboard</Link>
-      <Link to="/businesses">Businesses</Link>
-      <Link to="/services">Services</Link>
-      <Link to="/clients">Clients</Link>
-      <Link to="/calls">Calls</Link>
-      <Link to="/dialogue-scripts">Dialogue Scripts</Link>
+  
+   return (
+  <nav className={styles.navigation}>
+    <div className={styles.brand}>
+  <span className={styles.logo}>AI</span>
+  <strong className={styles.brandName}>AI Reception</strong>
+</div>
 
-      <button type="button" onClick={handleLogout}>
-        Logout
-      </button>
-    </nav>
-  );
+    <NavLink
+  to="/dashboard"
+  end
+  className={({ isActive }) =>
+    `${styles.link} ${isActive ? styles.active : ""}`
+  }
+>
+  Dashboard
+</NavLink>
+    <NavLink
+  to="/businesses"
+  className={({ isActive }) =>
+    `${styles.link} ${isActive ? styles.active : ""}`
+  }
+>
+  Businesses
+</NavLink>
+    <NavLink
+  to="/services"
+  className={({ isActive }) =>
+    `${styles.link} ${isActive ? styles.active : ""}`
+  }
+>
+  Services
+</NavLink>
+    <NavLink
+  to="/clients"
+  className={({ isActive }) =>
+    `${styles.link} ${isActive ? styles.active : ""}`
+  }
+>
+  Clients
+</NavLink>
+    <NavLink
+  to="/calls"
+  className={({ isActive }) =>
+    `${styles.link} ${isActive ? styles.active : ""}`
+  }
+>
+  Calls
+</NavLink>
+    <NavLink
+  to="/dialogue-scripts"
+  className={({ isActive }) =>
+    `${styles.link} ${isActive ? styles.active : ""}`
+  }
+>
+  Dialogue Scripts
+</NavLink>
+
+    <button
+  type="button"
+  className={styles.logout}
+  onClick={handleLogout}
+>
+  Logout
+</button>
+  </nav>
+);
 }
 
 export default Navigation;
