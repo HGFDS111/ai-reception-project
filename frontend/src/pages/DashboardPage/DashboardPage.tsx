@@ -33,29 +33,72 @@ function DashboardPage() {
   <h1>Dashboard</h1>
   <p>Welcome to AI Reception</p>
 </div>
-      <p>Businesses: {businesses?.length ?? 0}</p>
-      <p>Clients: {clients?.length ?? 0}</p>
-      <p>Calls: {calls?.length ?? 0}</p>
-      <p>Booked calls: {bookedCalls}</p>
-      <p>Callback requested: {callbackRequestedCalls}</p>
-      <p>Rejected calls: {rejectedCalls}</p>
-      <p>Booking rate: {bookingRate}%</p>
-      <p>Services: {serviceTemplates?.length ?? 0}</p>
-      <p>Dialogue Scripts: {dialogueScripts?.length ?? 0}</p>
-      <h2>Recent calls</h2>
+      <div className={styles.statsGrid}>
+  <div className={styles.statCard}>
+    <span>Businesses</span>
+    <strong>{businesses?.length ?? 0}</strong>
+  </div>
 
-      <ul>
-        {recentCalls.map((call) => (
-         <li key={call.id}>
-  Call #{call.id} — {call.result} —{" "}
-  {clients?.find((client) => client.id === call.clientId)?.name ??
-    "Unknown client"}{" "}
-  —{" "}
-  {businesses?.find((business) => business.id === call.businessId)?.name ??
-    "Unknown business"}
-</li>
-        ))}
-      </ul>
+  <div className={styles.statCard}>
+    <span>Clients</span>
+    <strong>{clients?.length ?? 0}</strong>
+  </div>
+
+  <div className={styles.statCard}>
+    <span>Calls</span>
+    <strong>{calls?.length ?? 0}</strong>
+  </div>
+
+  <div className={styles.statCard}>
+    <span>Booking rate</span>
+    <strong>{bookingRate}%</strong>
+  </div>
+</div>
+
+<div className={styles.secondaryStatsGrid}>
+  <div className={styles.statCard}>
+    <span>Booked calls</span>
+    <strong>{bookedCalls}</strong>
+  </div>
+
+  <div className={styles.statCard}>
+    <span>Callback requested</span>
+    <strong>{callbackRequestedCalls}</strong>
+  </div>
+
+  <div className={styles.statCard}>
+    <span>Rejected calls</span>
+    <strong>{rejectedCalls}</strong>
+  </div>
+
+  <div className={styles.statCard}>
+    <span>Services</span>
+    <strong>{serviceTemplates?.length ?? 0}</strong>
+  </div>
+
+  <div className={styles.statCard}>
+    <span>Dialogue Scripts</span>
+    <strong>{dialogueScripts?.length ?? 0}</strong>
+  </div>
+</div>
+
+     <div className={styles.recentCalls}>
+  <h2>Recent calls</h2>
+
+  <ul>
+    {recentCalls.map((call) => (
+      <li key={call.id}>
+        Call #{call.id} —{" "}
+{call.result === "callback_requested" ? "callback requested" : call.result} —{" "}
+        {clients?.find((client) => client.id === call.clientId)?.name ??
+          "Unknown client"}{" "}
+        —{" "}
+        {businesses?.find((business) => business.id === call.businessId)?.name ??
+          "Unknown business"}
+      </li>
+    ))}
+  </ul>
+</div>
     </section>
   );
 }

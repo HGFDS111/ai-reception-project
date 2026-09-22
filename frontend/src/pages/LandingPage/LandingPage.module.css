@@ -85,9 +85,12 @@
   font-weight: 600;
 }
 .primaryButton {
+  padding: 14px 22px;
   border: none;
+  border-radius: var(--radius-sm);
   background: var(--color-primary);
   color: white;
+  font-weight: 600;
 }
 
 .primaryButton:hover {
@@ -138,4 +141,188 @@
 .voiceCard span {
   font-size: 13px;
   color: var(--color-text-secondary);
+}
+
+.benefits {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 64px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+ border: 1px solid var(--color-border);
+border-radius: 20px;
+background: var(--color-bg);
+}
+
+.benefits div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.benefits strong {
+  font-size: 16px;
+}
+
+.benefits span {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.industries {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 56px 64px 72px;
+}
+
+.industriesHeader h2 {
+  margin: 8px 0 28px;
+  font-size: 32px;
+  line-height: 1.15;
+}
+
+.industryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.industryGrid > div {
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: white;
+  box-shadow: var(--shadow-card);
+}
+
+.industryGrid h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+
+.industryGrid p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.platform {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 72px 64px;
+}
+
+.platformHeader h2 {
+  margin: 8px 0 32px;
+  font-size: 36px;
+  line-height: 1.15;
+}
+.platformGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.platformGrid > div {
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: white;
+  box-shadow: var(--shadow-card);
+}
+
+.platformGrid h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+
+.platformGrid p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.pricing {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 72px 64px;
+}
+
+.pricingContent {
+  max-width: 760px;
+}
+
+.pricingContent h2 {
+  margin: 8px 0 18px;
+  font-size: 36px;
+  line-height: 1.15;
+}
+
+.pricingContent p {
+  margin: 0 0 24px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.resources {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 72px 64px 88px;
+}
+
+.resourcesHeader h2 {
+  margin: 8px 0 28px;
+  font-size: 32px;
+  line-height: 1.15;
+}
+
+.resourcesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.resourcesGrid > div {
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: white;
+  box-shadow: var(--shadow-card);
+}
+
+.resourcesGrid h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+
+.resourcesGrid p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.footer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-top: 1px solid var(--color-border);
+}
+
+.footer > div:nth-child(2) {
+  display: flex;
+  gap: 20px;
+}
+
+.footer strong {
+  font-size: 18px;
+}
+
+.footer p,
+.footer span {
+  margin: 4px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 14px;
 }

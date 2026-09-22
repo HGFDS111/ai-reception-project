@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { useLoginMutation } from "../../entities/auth/authApi";
 import { useNavigate } from 'react-router-dom'
+import styles from "./LoginPage.module.css";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -15,14 +16,19 @@ function LoginPage() {
       const result = await login({ email, password }).unwrap();
 
       localStorage.setItem("token", result.token);
-      navigate("/")
+      navigate("/dashboard")
     } catch (loginError) {
       console.error(loginError);
     }
   };
 
   return (
-    <main>
+  <main className={styles.page}>
+    <div className={styles.card}>
+      <div className={styles.brand}>
+  <span className={styles.logo}>AI</span>
+  <strong>AI Reception</strong>
+</div>
       <h1>Login</h1>
 
       <form onSubmit={handleSubmit}>
@@ -52,6 +58,7 @@ function LoginPage() {
           {isLoading ? "Logging in..." : "Login"}
         </button>
       </form>
+      </div>
     </main>
   );
 }
