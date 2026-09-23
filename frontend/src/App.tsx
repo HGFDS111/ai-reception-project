@@ -16,11 +16,18 @@ import BusinessesPage from "./pages/BusinessesPage/BusinessesPage";
 import DialogueScriptsPage from "./pages/DialogueScriptsPage/DialogueScriptsPage";
 import ServicesPage from "./pages/ServicesPage/ServicesPage";
 import styles from "./App.module.css";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage/ResetPasswordPage";
 
 function ContentWrapper({ children }: { children: ReactNode }) {
   const location = useLocation();
 
-  if (location.pathname === "/login" || location.pathname === "/") {
+  if (
+  location.pathname === "/login" ||
+  location.pathname === "/forgot-password" ||
+  location.pathname === "/reset-password" ||
+  location.pathname === "/"
+) {
   return <>{children}</>;
 }
 
@@ -30,7 +37,12 @@ function ContentWrapper({ children }: { children: ReactNode }) {
 function NavigationWrapper() {
     const location = useLocation();
 
- if (location.pathname === "/login" || location.pathname === "/") {
+ if (
+  location.pathname === "/login" ||
+  location.pathname === "/forgot-password" ||
+  location.pathname === "/reset-password" ||
+  location.pathname === "/"
+) {
   return null;
 }
 
@@ -98,6 +110,16 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+<Route
+  path="/forgot-password"
+  element={<ForgotPasswordPage />}
+/>
+
+<Route
+  path="/reset-password"
+  element={<ResetPasswordPage />}
+/>
 
         <Route path="/login" element={<LoginPage />} />
       </Routes>

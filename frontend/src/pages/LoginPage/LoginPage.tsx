@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { useLoginMutation } from "../../entities/auth/authApi";
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./LoginPage.module.css";
 
 function LoginPage() {
@@ -52,6 +52,7 @@ function LoginPage() {
           />
         </div>
 
+<Link to="/forgot-password">Forgot password?</Link>
         {error && <p>Login failed</p>}
 
         <button type="submit" disabled={isLoading}>

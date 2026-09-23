@@ -78,6 +78,18 @@ function DialogueScriptsPage() {
     setObjectionFlow("");
   };
 
+  const handleDelete = async (scriptId: number) => {
+  const confirmed = window.confirm(
+    "Are you sure you want to delete this dialogue script?",
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  await deleteDialogueScript(scriptId).unwrap();
+};
+
   if (isLoading) {
     return <p>Loading dialogue scripts...</p>;
   }
@@ -171,7 +183,7 @@ function DialogueScriptsPage() {
 
         <button
           type="button"
-          onClick={() => deleteDialogueScript(script.id)}
+          onClick={() => handleDelete(script.id)}
           disabled={isDeleting}
         >
           {isDeleting ? "Deleting..." : "Delete"}

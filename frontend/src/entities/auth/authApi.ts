@@ -12,6 +12,17 @@ type LoginResponse = {
     email: string
   }
 }
+type ForgotPasswordRequest = {
+  email: string
+}
+type MessageResponse = {
+  message: string
+}
+
+type ResetPasswordRequest = {
+  token: string
+  password: string
+}
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -22,7 +33,25 @@ export const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+    forgotPassword: builder.mutation<MessageResponse, ForgotPasswordRequest>({
+  query: (body) => ({
+    url: '/auth/forgot-password',
+    method: 'POST',
+    body,
+  }),
+}),
+resetPassword: builder.mutation<MessageResponse, ResetPasswordRequest>({
+  query: (body) => ({
+    url: '/auth/reset-password',
+    method: 'POST',
+    body,
+  }),
+}),
   }),
 })
 
-export const { useLoginMutation } = authApi
+export const {
+  useLoginMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
+} = authApi
