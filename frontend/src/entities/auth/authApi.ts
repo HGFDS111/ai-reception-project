@@ -12,6 +12,12 @@ type LoginResponse = {
     email: string
   }
 }
+
+type RegisterRequest = {
+  email: string
+  password: string
+}
+
 type ForgotPasswordRequest = {
   email: string
 }
@@ -33,6 +39,14 @@ export const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+register: builder.mutation<LoginResponse, RegisterRequest>({
+  query: (body) => ({
+    url: '/auth/register',
+    method: 'POST',
+    body,
+  }),
+}),
+
     forgotPassword: builder.mutation<MessageResponse, ForgotPasswordRequest>({
   query: (body) => ({
     url: '/auth/forgot-password',
@@ -52,6 +66,7 @@ resetPassword: builder.mutation<MessageResponse, ResetPasswordRequest>({
 
 export const {
   useLoginMutation,
+  useRegisterMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
 } = authApi

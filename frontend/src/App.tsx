@@ -18,6 +18,7 @@ import ServicesPage from "./pages/ServicesPage/ServicesPage";
 import styles from "./App.module.css";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage/ResetPasswordPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
 
 function ContentWrapper({ children }: { children: ReactNode }) {
   const location = useLocation();
@@ -26,6 +27,7 @@ function ContentWrapper({ children }: { children: ReactNode }) {
   location.pathname === "/login" ||
   location.pathname === "/forgot-password" ||
   location.pathname === "/reset-password" ||
+  location.pathname === "/register" ||
   location.pathname === "/"
 ) {
   return <>{children}</>;
@@ -41,6 +43,7 @@ function NavigationWrapper() {
   location.pathname === "/login" ||
   location.pathname === "/forgot-password" ||
   location.pathname === "/reset-password" ||
+  location.pathname === "/register" ||
   location.pathname === "/"
 ) {
   return null;
@@ -121,6 +124,7 @@ function App() {
   element={<ResetPasswordPage />}
 />
 
+<Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
        </ContentWrapper>
