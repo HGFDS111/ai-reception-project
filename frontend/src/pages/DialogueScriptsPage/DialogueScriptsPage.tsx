@@ -6,6 +6,7 @@ import {
   useDeleteDialogueScriptMutation,
 } from "../../entities/dialogueScript/dialogueScriptApi";
 import { useGetBusinessesQuery } from "../../entities/business/businessApi";
+import styles from "./DialogueScriptsPage.module.css";
 
 function DialogueScriptsPage() {
   const {
@@ -86,10 +87,12 @@ function DialogueScriptsPage() {
   }
 
   return (
-    <main>
-      <h1>Dialogue Scripts</h1>
-      <p>Dialogue scripts found: {dialogueScripts?.length ?? 0}</p>
-      <form onSubmit={handleSubmit}>
+  <main className={styles.page}>
+     <div className={styles.header}>
+  <h1>Dialogue Scripts</h1>
+  <p>Dialogue scripts found: {dialogueScripts?.length ?? 0}</p>
+</div>
+      <form className={styles.formCard} onSubmit={handleSubmit}>
         <div>
           <label htmlFor="businessId">Business</label>
           <select
@@ -148,30 +151,37 @@ function DialogueScriptsPage() {
         )}
       </form>
 
-      <ul>
-        {dialogueScripts?.map((script) => (
-          <li key={script.id}>
-            <strong>{script.greeting}</strong>
-            <p>{script.objectionFlow ?? "No objection flow"}</p>
-            <p>
-              Business:{" "}
-              {businesses?.find((business) => business.id === script.businessId)
-                ?.name ?? "Unknown business"}
-            </p>
+      {dialogueScripts && dialogueScripts.length > 0 ? (
+  <ul className={styles.scriptList}>
+    {dialogueScripts.map((script) => (
+      <li key={script.id}>
+        <strong>{script.greeting}</strong>
 
-            <button type="button" onClick={() => handleEdit(script)}>
-              Edit
-            </button>
-            <button
-              type="button"
-              onClick={() => deleteDialogueScript(script.id)}
-              disabled={isDeleting}
-            >
-              {isDeleting ? "Deleting..." : "Delete"}
-            </button>
-          </li>
-        ))}
-      </ul>
+        <p>{script.objectionFlow ?? "No objection flow"}</p>
+
+        <p>
+          Business:{" "}
+          {businesses?.find((business) => business.id === script.businessId)
+            ?.name ?? "Unknown business"}
+        </p>
+
+        <button type="button" onClick={() => handleEdit(script)}>
+          Edit
+        </button>
+
+        <button
+          type="button"
+          onClick={() => deleteDialogueScript(script.id)}
+          disabled={isDeleting}
+        >
+          {isDeleting ? "Deleting..." : "Delete"}
+        </button>
+      </li>
+    ))}
+  </ul>
+) : (
+  <div className={styles.emptyState}>No dialogue scripts yet</div>
+)}
     </main>
   );
 }

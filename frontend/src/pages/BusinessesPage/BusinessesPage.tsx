@@ -5,6 +5,7 @@ import {
   useUpdateBusinessMutation,
   useDeleteBusinessMutation,
 } from "../../entities/business/businessApi";
+import styles from "./BusinessesPage.module.css";
 
 function BusinessesPage() {
   const { data: businesses, isLoading, error } = useGetBusinessesQuery();
@@ -55,10 +56,22 @@ function BusinessesPage() {
   };
 
   const handleCancelEdit = () => {
-  setEditingId(null);
-  setName("");
-  setType("dental");
-};
+    setEditingId(null);
+    setName("");
+    setType("dental");
+  };
+
+  const handleDelete = async (businessId: number) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this business?",
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    await deleteBusiness(businessId).unwrap();
+  };
 
   if (isLoading) {
     return <p>Loading businesses...</p>;
@@ -69,10 +82,12 @@ function BusinessesPage() {
   }
 
   return (
-    <main>
-      <h1>Businesses</h1>
-      <p>Businesses found: {businesses?.length ?? 0}</p>
-      <form onSubmit={handleSubmit}>
+    <main className={styles.page}>
+      <div className={styles.header}>
+        <h1>Businesses</h1>
+        <p>Businesses found: {businesses?.length ?? 0}</p>
+      </div>
+      <form className={styles.formCard} onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Name</label>
           <input
@@ -107,18 +122,17 @@ function BusinessesPage() {
               ? "Creating..."
               : "Create business"}
         </button>
-{editingId !== null && (
-  <button
-    type="button"
-    onClick={handleCancelEdit}
-    disabled={isUpdating}
-  >
-    Cancel
-  </button>
-)}
-
+        {editingId !== null && (
+          <button
+            type="button"
+            onClick={handleCancelEdit}
+            disabled={isUpdating}
+          >
+            Cancel
+          </button>
+        )}
       </form>
-      <ul>
+      <ul className={styles.businessList}>
         {businesses?.map((business) => (
           <li key={business.id}>
             {business.name} — {business.type}
@@ -127,7 +141,7 @@ function BusinessesPage() {
             </button>
             <button
               type="button"
-              onClick={() => deleteBusiness(business.id)}
+              onClick={() => handleDelete(business.id)}
               disabled={isDeleting}
             >
               {isDeleting ? "Deleting..." : "Delete"}

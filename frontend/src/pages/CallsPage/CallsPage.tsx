@@ -5,6 +5,7 @@ import {
   useCreateCallMutation,
 } from "../../entities/call/callApi";
 import { useGetClientsQuery } from "../../entities/client/clientApi";
+import styles from "./CallsPage.module.css";
 
 function CallsPage() {
   const {
@@ -57,10 +58,12 @@ function CallsPage() {
   }
 
   return (
-    <main>
-      <h1>Calls</h1>
-      <p>Calls found: {calls?.length ?? 0}</p>
-      <form onSubmit={handleCreateCall}>
+  <main className={styles.page}>
+      <div className={styles.header}>
+  <h1>Calls</h1>
+  <p>Calls found: {calls?.length ?? 0}</p>
+</div>
+      <form className={styles.formCard} onSubmit={handleCreateCall}>
         <div>
           <label htmlFor="business">Business</label>
           <select
@@ -121,22 +124,26 @@ function CallsPage() {
         </button>
       </form>
 
-      <ul>
-        {calls?.map((call) => (
-          <li key={call.id}>
-            Call #{call.id} — {call.result} —{" "}
-            {clients?.find((client) => client.id === call.clientId)?.name ??
-              "Unknown client"}{" "}
-            —{" "}
-            {clients?.find((client) => client.id === call.clientId)?.phone ??
-              "Unknown phone"}{" "}
-            —{" "}
-            {businesses?.find((business) => business.id === call.businessId)
-              ?.name ?? "Unknown business"}{" "}
-            — {new Date(call.startedAt).toLocaleString()}
-          </li>
-        ))}
-      </ul>
+     {calls && calls.length > 0 ? (
+  <ul className={styles.callList}>
+    {calls.map((call) => (
+      <li key={call.id}>
+        Call #{call.id} — {call.result} —{" "}
+        {clients?.find((client) => client.id === call.clientId)?.name ??
+          "Unknown client"}{" "}
+        —{" "}
+        {clients?.find((client) => client.id === call.clientId)?.phone ??
+          "Unknown phone"}{" "}
+        —{" "}
+        {businesses?.find((business) => business.id === call.businessId)
+          ?.name ?? "Unknown business"}{" "}
+        — {new Date(call.startedAt).toLocaleString()}
+      </li>
+    ))}
+  </ul>
+) : (
+  <div className={styles.emptyState}>No calls yet</div>
+)}
     </main>
   );
 }
