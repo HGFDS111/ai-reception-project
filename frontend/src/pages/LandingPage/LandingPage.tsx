@@ -17,7 +17,15 @@ function LandingPage() {
     <div className={styles.page}>
       
       <header className={styles.header}>
-        <div className={styles.brand}>AI Reception</div>
+        <div className={styles.brand}>
+  <span className={styles.brandMark} aria-hidden="true">
+    <span className={styles.brandDotOne}></span>
+    <span className={styles.brandDotTwo}></span>
+    <span className={styles.brandDotThree}></span>
+  </span>
+
+  <span>AI Reception</span>
+</div>
 
         <nav className={styles.nav}>
           <a href="#platform">Platform</a>
