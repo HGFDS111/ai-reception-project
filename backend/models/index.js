@@ -6,6 +6,7 @@ import BusinessService from './businessService.model.js';
 import Client from './client.model.js';
 import CallSession from './callSession.model.js';
 import DialogueScript from './dialogueScript.model.js';
+import Message from './message.model.js';
 
 // User ↔ Business (one-to-many)
 User.hasMany(Business, { foreignKey: 'userId' });
@@ -24,6 +25,13 @@ CallSession.belongsTo(Business, { foreignKey: 'businessId' });
 Client.hasMany(CallSession, { foreignKey: 'clientId' });
 CallSession.belongsTo(Client, { foreignKey: 'clientId' });
 
+// CallSession ↔ Message (one-to-many, сообщения удаляются вместе со звонком)
+CallSession.hasMany(Message, {
+  foreignKey: { name: 'callSessionId', allowNull: false },
+  onDelete: 'CASCADE',
+});
+Message.belongsTo(CallSession, { foreignKey: 'callSessionId' });
+
 // Business ↔ DialogueScript (one-to-many: пока допустим несколько сценариев на бизнес)
 Business.hasMany(DialogueScript, { foreignKey: 'businessId' });
 DialogueScript.belongsTo(Business, { foreignKey: 'businessId' });
@@ -32,4 +40,4 @@ DialogueScript.belongsTo(Business, { foreignKey: 'businessId' });
 Business.belongsToMany(ServiceTemplate, { through: BusinessService, foreignKey: 'businessId' });
 ServiceTemplate.belongsToMany(Business, { through: BusinessService, foreignKey: 'serviceTemplateId' });
 
-export { sequelize, User, Business, ServiceTemplate, BusinessService, Client, CallSession, DialogueScript };
+export { sequelize, User, Business, ServiceTemplate, BusinessService, Client, CallSession, DialogueScript, Message };

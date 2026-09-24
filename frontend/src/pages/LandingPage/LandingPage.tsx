@@ -9,10 +9,13 @@ import harborHotelsLogo from "../../assets/logos/harbor-hotels-logo.png";
 import primeAutoLogo from "../../assets/logos/prime-auto-logo.png";
 import carePointLogo from "../../assets/logos/carepoint-logo.png";
 import urbanFixLogo from "../../assets/logos/urbanfix-logo.png";
+import { Link } from "react-router-dom";
 
 function LandingPage() {
+  const token = localStorage.getItem("token");
   return (
     <div className={styles.page}>
+      
       <header className={styles.header}>
         <div className={styles.brand}>AI Reception</div>
 
@@ -24,9 +27,14 @@ function LandingPage() {
         </nav>
 
         <div className={styles.actions}>
-          <a href="/login">Sign in</a>
-          <button type="button">Get a demo</button>
-        </div>
+  {token ? (
+    <Link to="/dashboard">My Account</Link>
+  ) : (
+    <Link to="/login">Sign in</Link>
+  )}
+
+  <button type="button">Get a demo</button>
+</div>
       </header>
 
       <section className={styles.hero}>

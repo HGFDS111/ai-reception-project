@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import styles from "./Navigation.module.css";
 
 function Navigation() {
@@ -11,10 +11,10 @@ function Navigation() {
   
    return (
   <nav className={styles.navigation}>
-    <div className={styles.brand}>
+   <Link to="/" className={styles.brand}>
   <span className={styles.logo}>AI</span>
   <strong className={styles.brandName}>AI Reception</strong>
-</div>
+</Link>
 
     <NavLink
   to="/dashboard"
@@ -56,6 +56,14 @@ function Navigation() {
   }
 >
   Calls
+</NavLink>
+    <NavLink
+  to="/simulator"
+  className={({ isActive }) =>
+    `${styles.link} ${isActive ? styles.active : ""}`
+  }
+>
+  Simulator
 </NavLink>
     <NavLink
   to="/dialogue-scripts"

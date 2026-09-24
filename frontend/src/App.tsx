@@ -15,6 +15,7 @@ import ProtectedRoute from "./app/ProtectedRoute";
 import BusinessesPage from "./pages/BusinessesPage/BusinessesPage";
 import DialogueScriptsPage from "./pages/DialogueScriptsPage/DialogueScriptsPage";
 import ServicesPage from "./pages/ServicesPage/ServicesPage";
+import SimulatorPage from "./pages/SimulatorPage/SimulatorPage";
 import styles from "./App.module.css";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage/ResetPasswordPage";
@@ -110,6 +111,15 @@ function App() {
           element={
             <ProtectedRoute>
               <ServicesPage />
+            </ProtectedRoute>
+          }
+        />
+
+<Route
+          path="/simulator"
+          element={
+            <ProtectedRoute>
+              <SimulatorPage />
             </ProtectedRoute>
           }
         />
