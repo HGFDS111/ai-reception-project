@@ -1,4 +1,12 @@
-import { Business } from '../models/index.js';
+import {
+  sequelize,
+  Business,
+  Client,
+  CallSession,
+  DialogueScript,
+  BusinessService,
+  Message,
+} from '../models/index.js';
 
 const BUSINESS_TYPES = ['dental', 'hotel', 'repair_shop'];
 
@@ -98,6 +106,8 @@ export const updateBusiness = async (req, res) => {
 };
 
 export const deleteBusiness = async (req, res) => {
+  const transaction = await sequelize.transaction();
+
   try {
     const { id } = req.params;
 
@@ -106,20 +116,76 @@ export const deleteBusiness = async (req, res) => {
         id,
         userId: req.user.userId,
       },
+      transaction,
     });
 
     if (!business) {
+      await transaction.rollback();
+
       return res.status(404).json({
         message: 'Business not found',
       });
     }
 
-    await business.destroy();
+    const calls = await CallSession.findAll({
+      where: {
+        businessId: business.id,
+      },
+      attributes: ['id'],
+      transaction,
+    });
+
+    const callIds = calls.map((call) => call.id);
+
+    if (callIds.length > 0) {
+      await Message.destroy({
+        where: {
+          callSessionId: callIds,
+        },
+        transaction,
+      });
+    }
+
+    await CallSession.destroy({
+      where: {
+        businessId: business.id,
+      },
+      transaction,
+    });
+
+    await Client.destroy({
+      where: {
+        businessId: business.id,
+      },
+      transaction,
+    });
+
+    await DialogueScript.destroy({
+      where: {
+        businessId: business.id,
+      },
+      transaction,
+    });
+
+    await BusinessService.destroy({
+      where: {
+        businessId: business.id,
+      },
+      transaction,
+    });
+
+    await business.destroy({
+      transaction,
+    });
+
+    await transaction.commit();
 
     res.status(200).json({
       message: 'Business deleted successfully',
     });
   } catch (error) {
+    await transaction.rollback();
+
     console.error(error);
 
     res.status(500).json({
