@@ -5,6 +5,19 @@
   padding: 40px 20px;
   background: var(--color-bg);
 }
+.backLink {
+  align-self: flex-start;
+  margin-bottom: 18px;
+
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--color-primary);
+}
 
 .card {
   width: 100%;

@@ -6,7 +6,7 @@ import styles from "./RegisterPage.module.css";
 function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [register, { isLoading }] = useRegisterMutation();
+  const [register, { isLoading, error }] = useRegisterMutation();
   const navigate = useNavigate();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -24,6 +24,13 @@ function RegisterPage() {
   return (
   <main className={styles.page}>
     <div className={styles.card}>
+      <Link to="/" className={styles.backLink}>
+  ← Back to home
+</Link>
+<div className={styles.brand}>
+  <span className={styles.logo}>AI</span>
+  <strong>AI Reception</strong>
+</div>
     <h1>Create account</h1>
 
     <form onSubmit={handleSubmit}>
@@ -53,6 +60,12 @@ function RegisterPage() {
         {isLoading ? "Creating account..." : "Create account"}
       </button>
     </form>
+
+{error && (
+  <p className={styles.errorMessage}>
+    An account with this email already exists. Please sign in
+  </p>
+)}
 
     <p>
   Already have an account? <Link to="/login">Sign in</Link>

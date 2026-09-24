@@ -25,6 +25,9 @@ function LoginPage() {
   return (
   <main className={styles.page}>
     <div className={styles.card}>
+      <Link to="/" className={styles.backLink}>
+  ← Back to home
+</Link>
       <div className={styles.brand}>
   <span className={styles.logo}>AI</span>
   <strong>AI Reception</strong>
