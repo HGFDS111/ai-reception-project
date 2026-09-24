@@ -11,6 +11,32 @@ import carePointLogo from "../../assets/logos/carepoint-logo.png";
 import urbanFixLogo from "../../assets/logos/urbanfix-logo.png";
 import { Link } from "react-router-dom";
 
+
+
+function ArrowIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+      <path
+        d="M5 12h14M13 6l6 6-6 6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function PlayIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M10 8.5v7l6-3.5-6-3.5Z" fill="currentColor" />
+    </svg>
+  );
+}
+
 function LandingPage() {
   const token = localStorage.getItem("token");
   return (
@@ -41,7 +67,10 @@ function LandingPage() {
     <Link to="/login">Sign in</Link>
   )}
 
-  <button type="button">Get a demo</button>
+  <button type="button">
+    Get a demo
+    <ArrowIcon />
+  </button>
 </div>
       </header>
 
@@ -64,22 +93,42 @@ function LandingPage() {
           <div className={styles.heroActions}>
             <button type="button" className={styles.primaryButton}>
               Get a demo
+              <ArrowIcon />
             </button>
 
             <button type="button" className={styles.secondaryButton}>
               See how it works
+              <PlayIcon />
             </button>
           </div>
         </div>
 
         <div className={styles.heroVisual}>
+<div className={`${styles.heroCircle} ${styles.circleMintLarge}`}></div>
+<div className={`${styles.heroCircle} ${styles.circlePurpleLarge}`}></div>
+<div className={`${styles.heroCircle} ${styles.circlePurpleSmall}`}></div>
+<div className={`${styles.heroCircle} ${styles.circleMintBottom}`}></div>
+
           <img
             src={heroReceptionist}
             alt="AI receptionist"
             className={styles.heroImage}
           />
 
-         <div className={styles.voiceCard}>
+         <ul className={styles.heroSteps}>
+            <li>Answers</li>
+            <li className={styles.heroStepActive}>Books</li>
+            <li>Follows up</li>
+          </ul>
+
+          <p className={styles.heroNote}>
+            A better
+            <br />
+            customer experience
+            <br />— every call.
+          </p>
+
+          <div className={styles.voiceCard}>
   <div className={styles.voiceText}>
     <strong>👋 Hello!</strong>
     <span>How can I help you today?</span>
@@ -294,25 +343,7 @@ function LandingPage() {
       <div className={styles.platformIcon}>
         <svg viewBox="0 0 24 24" aria-hidden="true">
   <path
-    d="M20 7v5h-5"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.8"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  />
-
-  <path
-    d="M4 17v-5h5"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.8"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  />
-
-  <path
-    d="M6.2 9a7 7 0 0 1 11.5-2.5L20 9M4 15l2.3 2.5A7 7 0 0 0 17.8 15"
+    d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16M8 16H3v5"
     fill="none"
     stroke="currentColor"
     strokeWidth="1.8"

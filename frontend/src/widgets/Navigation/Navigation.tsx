@@ -12,7 +12,12 @@ function Navigation() {
    return (
   <nav className={styles.navigation}>
    <Link to="/" className={styles.brand}>
-  <span className={styles.logo}>AI</span>
+  <span className={styles.brandMark} aria-hidden="true">
+    <span className={styles.brandDotOne}></span>
+    <span className={styles.brandDotTwo}></span>
+    <span className={styles.brandDotThree}></span>
+  </span>
+
   <strong className={styles.brandName}>AI Reception</strong>
 </Link>
 

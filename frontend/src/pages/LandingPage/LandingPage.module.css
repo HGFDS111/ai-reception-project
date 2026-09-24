@@ -12,6 +12,9 @@
   border-bottom: 1px solid var(--color-border);
 }
 .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 20px;
   font-weight: 700;
   color: var(--color-text);
@@ -28,6 +31,9 @@
 }
 
 .actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   padding: 12px 20px;
   border: none;
   border-radius: var(--radius-sm);
@@ -41,11 +47,15 @@
 .hero {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 70px 64px 40px;
+  padding: 40px 64px 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  align-items: center;
+  gap: 32px;
+  align-items: stretch;
+}
+.heroContent {
+  align-self: center;
+  padding-bottom: 32px;
 }
 .heroContent h1 {
   margin: 0;
@@ -85,6 +95,9 @@
   font-weight: 600;
 }
 .primaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   padding: 14px 22px;
   border: none;
   border-radius: var(--radius-sm);
@@ -98,97 +111,141 @@
 }
 
 .secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   border: 1px solid var(--color-border);
   background: white;
   color: var(--color-text);
 }
 .heroVisual {
-  min-height: 420px;
-  border-radius: 32px;
-  background:
-    radial-gradient(circle at 35% 30%, #dff6f4 0, #dff6f4 28%, transparent 29%),
-    radial-gradient(circle at 70% 40%, #e8edff 0, #e8edff 32%, transparent 33%);
+  min-height: 440px;
+  border-radius: 32px 32px 0 0;
+  
   position: relative;
   overflow: hidden;
+    background: #ffffff;
+}
+
+.heroCircle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* большой мятный круг сверху слева */
+.circleMintLarge {
+  width: 330px;
+  height: 330px;
+
+  left: 6%;
+  top: -8%;
+
+  background: rgba(176, 232, 226, 0.52);
+}
+
+/* большой сиреневый круг справа */
+.circlePurpleLarge {
+  width: 330px;
+  height: 330px;
+
+  right: 4%;
+  top: 8%;
+
+  background: rgba(191, 198, 249, 0.48);
+}
+
+/* маленький сиреневый круг слева */
+.circlePurpleSmall {
+  width: 145px;
+  height: 145px;
+
+  left: -10%;
+  top: 26%;
+
+  background: rgba(183, 193, 247, 0.46);
+}
+
+/* нижний мятный круг */
+.circleMintBottom {
+  width: 290px;
+  height: 290px;
+
+  left: 7%;
+  top: 30%;
+
+  background: rgba(177, 232, 226, 0.48);
 }
 .heroImage {
   position: absolute;
-  right: 7%;
+  right: 9%;
   bottom: -66%;
   height: 155%;
   width: auto;
   max-width: none;
+  z-index: 1;
 }
-
 .voiceCard {
   position: absolute;
-  left: -2%;
-  top: 56%;
+  left: 12px;
+  top: 44%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  min-width: 280px;
-  padding: 14px 16px;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 12px 16px;
   border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 14px 40px rgba(15, 35, 55, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 22px rgba(15, 35, 55, 0.1);
   backdrop-filter: blur(10px);
   z-index: 2;
 }
+
 .voiceText {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
+.voiceText strong {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.voiceText span {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+/* Small waveform in the bottom-right corner, no circle */
 .voiceIcon {
-  width: 42px;
-  height: 42px;
-  flex-shrink: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 3px;
-  border: 1px solid var(--color-border);
-  border-radius: 50%;
-  background: white;
+  gap: 2px;
+  height: 14px;
+  margin-bottom: 1px;
+  flex-shrink: 0;
 }
 
 .voiceIcon span {
-  width: 4px;
+  display: block;
+  width: 2px;
   border-radius: 999px;
   background: #173b67;
 }
 
-.voiceIcon span:nth-child(1),
-.voiceIcon span:nth-child(5) {
-  height: 12px;
-}
-
-.voiceIcon span:nth-child(2),
-.voiceIcon span:nth-child(4) {
-  height: 20px;
-}
-
-.voiceIcon span:nth-child(3) {
-  height: 28px;
-}
-
-.voiceCard strong {
-  font-size: 16px;
-}
-
-.voiceCard span {
-  font-size: 13px;
-  color: var(--color-text-secondary);
-}
+.voiceIcon span:nth-child(1) { height: 6px; }
+.voiceIcon span:nth-child(2) { height: 11px; }
+.voiceIcon span:nth-child(3) { height: 14px; }
+.voiceIcon span:nth-child(4) { height: 9px; }
+.voiceIcon span:nth-child(5) { height: 5px; }
 
 .benefits {
-  max-width: 1400px;
+  width: calc(100% - 128px);
+  max-width: 1272px;
   margin: 0 auto;
-  padding: 28px 64px;
+  padding: 24px 32px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
  border: 1px solid var(--color-border);
@@ -297,7 +354,7 @@ background: var(--color-bg);
 .industries {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 56px 64px 72px;
+  padding: 40px 64px 48px;
 }
 
 .industriesHeader h2 {
@@ -379,7 +436,7 @@ background: var(--color-bg);
 .platform {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 72px 64px;
+  padding: 48px 64px;
 }
 
 .platformHeader h2 {
@@ -447,7 +504,7 @@ background: var(--color-bg);
 .pricing {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 72px 64px;
+  padding: 48px 64px;
 }
 
 .pricingPanel {
@@ -677,7 +734,7 @@ background: var(--color-bg);
 .resources {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 72px 64px 88px;
+  padding: 48px 64px 56px;
 }
 
 .resourcesHeader h2 {
@@ -785,7 +842,7 @@ background: var(--color-bg);
 .logoMarquee {
   width: 100%;
   overflow: hidden;
-  padding: 34px 0;
+  padding: 24px 0;
   border-bottom: 1px solid var(--color-border);
   background: #ffffff;
 }
@@ -888,4 +945,95 @@ background: var(--color-bg);
   max-height: 86px;
   display: block;
   object-fit: contain;
+}
+/* Hero: side labels and handwritten note */
+.heroSteps {
+  position: absolute;
+  top: 14%;
+  right: 28px;
+  z-index: 2;
+  margin: 0;
+  padding: 0 0 0 14px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-left: 1px solid #cfd9e3;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.heroSteps li {
+  position: relative;
+}
+
+.heroStepActive {
+  color: var(--color-text);
+}
+
+.heroStepActive::before {
+  content: "";
+  position: absolute;
+  left: -15px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-text);
+}
+
+.heroNote {
+  position: absolute;
+  right: 20px;
+  bottom: 22%;
+  z-index: 2;
+  margin: 0;
+  font-family: "Caveat", "Segoe Script", "Bradley Hand", cursive;
+  font-size: 22px;
+  line-height: 1.2;
+  color: #5b6b85;
+  transform: rotate(-6deg);
+}
+
+.heroNote::after {
+  content: "";
+  display: block;
+  width: 96px;
+  height: 2px;
+  margin: 8px 0 0 auto;
+  border-radius: 2px;
+  background: #8a97ad;
+  transform: rotate(-3deg);
+}
+
+/* Logo mark (three dots) */
+.brandMark {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+.brandMark span {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+}
+
+.brandDotOne {
+  top: 2px;
+  left: 11px;
+  background: #5b6fe0;
+}
+
+.brandDotTwo {
+  top: 18px;
+  left: 2px;
+  background: #6f7fe6;
+}
+
+.brandDotThree {
+  top: 19px;
+  left: 19px;
+  background: #2fa89a;
 }

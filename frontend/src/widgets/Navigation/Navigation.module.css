@@ -26,19 +26,37 @@ color: inherit;
 cursor: pointer;
 }
 
-.logo {
-  width: 36px;
-  height: 36px;
 
-  display: grid;
-  place-items: center;
+.brandMark {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+}
 
-  border-radius: 10px;
+.brandMark span {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+}
 
-  background: var(--color-primary);
-  color: white;
+.brandDotOne {
+  top: 2px;
+  left: 11px;
+  background: #5b6fe0;
+}
 
-  font-weight: 700;
+.brandDotTwo {
+  top: 18px;
+  left: 2px;
+  background: #6f7fe6;
+}
+
+.brandDotThree {
+  top: 19px;
+  left: 19px;
+  background: #2fa89a;
 }
 
 .brandName {
