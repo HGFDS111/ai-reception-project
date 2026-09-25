@@ -1,52 +1,27 @@
 # AI Reception
 
-AI Reception is a full-stack web application for managing an AI receptionist for businesses such as dental clinics, hotels, and repair shops.
+AI Reception is a full-stack web application for managing and simulating an AI receptionist for different types of businesses.
 
-The application allows users to manage businesses, clients, services, dialogue scripts, and call sessions. It also includes a call simulator where a virtual receptionist responds to customer messages using the selected business's services and dialogue script.
+The application allows users to create businesses, configure services and dialogue scripts, manage clients and call sessions, and test receptionist conversations through an interactive simulator.
 
-## Features
+The current version is an educational full-stack MVP. The receptionist conversation is simulated inside the web application; real telephone calling is not connected.
 
-- User registration and login with JWT authentication
-- Password reset by email
+## Main Features
+
+- User registration and login
+- JWT authentication
+- Password hashing with bcrypt
 - Business management
 - Client management
 - Service templates
-- Many-to-many relationship between businesses and services
-- Custom service prices for each business
-- Dialogue scripts with greetings and objection handling
-- Call session management
-- AI receptionist simulator
-- Automatic call result detection:
-  - `booked`
-  - `rejected`
-  - `callback_requested`
-- Conversation history stored in the database
+- Business-specific services and prices
+- Dialogue scripts
+- Call sessions
+- Message history
+- AI receptionist conversation simulator
 - Protected API routes
-- Responsive dashboard interface
-
-## AI Reception Simulator
-
-The Simulator demonstrates the main AI receptionist workflow.
-
-A user selects a business and starts a simulated call. The receptionist uses:
-
-- the business dialogue script
-- the business services
-- service prices
-- predefined conversation rules
-
-The simulator can:
-
-- greet the customer
-- answer questions about prices
-- handle objections
-- suggest services
-- recognize booking intent
-- recognize rejection
-- recognize callback requests
-- automatically update the call result
-
-The current implementation uses rule-based dialogue logic. The dialogue service is separated from the controller, so it can later be replaced by an external LLM or AI API without changing the main call-session logic.
+- MySQL database
+- Docker Compose setup
 
 ## Tech Stack
 
@@ -64,105 +39,136 @@ The current implementation uses rule-based dialogue logic. The dialogue service 
 
 - Node.js
 - Express
-- Sequelize
-- MySQL
+- Sequelize ORM
 - JWT
 - bcryptjs
 - Nodemailer
 
-## Project Structure
+### Database
+
+- MySQL 8
+
+### Infrastructure
+
+- Docker
+- Docker Compose
+
+## Architecture
 
 ```text
-ai-reception-project/
-├── backend/
-│   ├── config/
-│   ├── controllers/
-│   ├── middlewares/
-│   ├── models/
-│   ├── routes/
-│   ├── services/
-│   ├── .env.example
-│   ├── index.js
-│   └── package.json
-│
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   │   ├── app/
-│   │   ├── entities/
-│   │   ├── pages/
-│   │   ├── shared/
-│   │   └── widgets/
-│   └── package.json
-│
-└── README.md
+Browser
+   |
+   v
+React + TypeScript
+   |
+   | HTTP / JSON
+   v
+RTK Query
+   |
+   v
+Express API
+   |
+   v
+Controllers
+   |
+   v
+Sequelize ORM
+   |
+   v
+MySQL
+```
+
+Docker Compose runs the application as three services:
+
+```text
+frontend
+   |
+   v
+backend
+   |
+   v
+db (MySQL)
 ```
 
 ## Database Models
 
-The main database models are:
+The application contains the following main models:
 
-- `User`
-- `Business`
-- `Client`
-- `ServiceTemplate`
-- `BusinessService`
-- `CallSession`
-- `DialogueScript`
-- `Message`
+- User
+- Business
+- Client
+- ServiceTemplate
+- BusinessService
+- CallSession
+- DialogueScript
+- Message
 
 ### Main Relationships
 
 ```text
-User 1 ─── N Business
+User 1 ---- N Business
 
-Business 1 ─── N Client
+Business 1 ---- N Client
 
-Business 1 ─── N CallSession
+Business 1 ---- N CallSession
 
-Client 1 ─── N CallSession
+Business 1 ---- N DialogueScript
 
-Business 1 ─── N DialogueScript
+Client 1 ---- N CallSession
 
-Business N ─── N ServiceTemplate
-             through BusinessService
+CallSession 1 ---- N Message
 
-CallSession 1 ─── N Message
+Business N ---- N ServiceTemplate
+               |
+               v
+        BusinessService
 ```
 
-`BusinessService` stores additional information for the many-to-many relationship, including the service price and custom description.
+`BusinessService` is the junction table used for the many-to-many relationship between businesses and service templates.
 
-## Environment Variables
+It also stores business-specific information such as price and custom description.
 
-Create a file:
+## Authentication
+
+Authentication is implemented with JWT.
+
+After login, the backend returns a token. The frontend stores the token and sends it with protected API requests:
 
 ```text
-backend/.env
+Authorization: Bearer <token>
 ```
 
-Use `backend/.env.example` as a template.
+Protected backend routes use authentication middleware to validate the token.
 
-Required variables:
+Passwords are not stored as plain text. They are hashed using bcrypt before being saved to the database.
 
-```env
-DB_HOST=
-DB_PORT=
-DB_NAME=
-DB_USER=
-DB_PASSWORD=
+## Receptionist Simulator
 
-JWT_SECRET=
-PORT=
+The Simulator page allows the user to test a receptionist conversation for a selected business.
 
-SMTP_HOST=
-SMTP_PORT=
-SMTP_USER=
-SMTP_PASS=
-```
+A simulation creates a call session and stores conversation messages in the database.
 
-Never commit the real `.env` file to Git.
+The backend can react to different conversation intents, including:
 
-## Installation
+- service and price questions
+- booking requests
+- objections
+- rejection
+- callback requests
+- fallback questions
+
+Service and pricing responses can use the services assigned to the selected business.
+
+## Run with Docker
+
+### Requirements
+
+Install:
+
+- Git
+- Docker Desktop
+
+Node.js and MySQL do not need to be installed separately when the project is started with Docker.
 
 ### 1. Clone the repository
 
@@ -171,199 +177,196 @@ git clone https://github.com/HGFDS111/ai-reception-project.git
 cd ai-reception-project
 ```
 
-### 2. Install backend dependencies
+### 2. Start the application
 
 ```bash
-cd backend
-npm install
+docker compose up -d --build
 ```
 
-### 3. Configure environment variables
+Docker Compose will:
 
-Copy the example file:
+- build the frontend container
+- build the backend container
+- start MySQL 8
+- create the MySQL data volume
+- wait until MySQL is healthy
+- start the backend
+- start the frontend
 
-```bash
-cp .env.example .env
-```
+### 3. Open the application
 
-Then enter your MySQL, JWT, and SMTP credentials.
-
-### 4. Create the MySQL database
-
-Create a MySQL database matching the value of `DB_NAME` in `.env`.
-
-For example:
-
-```sql
-CREATE DATABASE ai_reception;
-```
-
-Sequelize creates and synchronizes the application tables when the backend starts.
-
-### 5. Start the backend
-
-```bash
-npm run dev
-```
-
-The API runs by default at:
-
-```text
-http://localhost:5000
-```
-
-You can verify it with:
-
-```bash
-curl http://localhost:5000/
-```
-
-Expected response:
-
-```text
-AI Reception API is running
-```
-
-### 6. Install frontend dependencies
-
-Open another terminal:
-
-```bash
-cd frontend
-npm install
-```
-
-### 7. Start the frontend
-
-```bash
-npm run dev
-```
-
-The frontend runs by default at:
+Frontend:
 
 ```text
 http://localhost:5173
 ```
 
-## Main API Routes
-
-### Authentication
+Backend:
 
 ```text
-POST /api/auth/register
-POST /api/auth/login
-GET  /api/auth/me
-POST /api/auth/forgot-password
-POST /api/auth/reset-password
+http://localhost:5000
 ```
 
-### Businesses
+MySQL runs inside the Docker Compose network on port `3306`.
 
-```text
-/api/business
-```
+### 4. Create an account
 
-### Clients
+A fresh installation starts with a new database.
 
-```text
-/api/clients
-```
+Open the application and register a user account before using the dashboard.
 
-### Services
-
-```text
-/api/service-templates
-/api/business
-```
-
-### Dialogue Scripts
-
-```text
-/api/dialogue-scripts
-```
-
-### Calls
-
-```text
-/api/calls
-```
-
-### Simulator
-
-```text
-POST /api/calls/simulate
-POST /api/calls/:id/messages
-GET  /api/calls/:id/messages
-```
-
-## Authentication
-
-Protected routes require a JWT access token.
-
-The token must be sent using the Authorization header:
-
-```text
-Authorization: Bearer <token>
-```
-
-Password-reset tokens contain a separate `purpose` value and cannot be used as normal authentication tokens.
-
-## Development Commands
-
-### Backend
+### 5. Check running containers
 
 ```bash
-npm run dev
+docker compose ps
 ```
 
-Start with Nodemon.
-
-```bash
-npm start
-```
-
-Start with Node.js.
-
-### Frontend
-
-```bash
-npm run dev
-```
-
-Start the Vite development server.
-
-```bash
-npm run build
-```
-
-Create a production build.
-
-```bash
-npm run lint
-```
-
-Run ESLint.
-
-## Current Simulator Architecture
-
-The main dialogue logic is located in:
+Expected services:
 
 ```text
-backend/services/dialogue.service.js
+frontend
+backend
+db
 ```
 
-The controller is responsible for:
+The database service should have a `healthy` status.
 
-1. validating the current user
-2. creating or finding the client
-3. creating a call session
-4. saving client messages
-5. calling the dialogue service
-6. saving assistant messages
-7. updating the call result
+### 6. View logs
 
-This separation makes it possible to replace the current rule-based dialogue engine with a real AI model later.
+All services:
 
-## License
+```bash
+docker compose logs -f
+```
 
-This project was created as an educational full-stack project.
+Backend:
+
+```bash
+docker compose logs -f backend
+```
+
+Frontend:
+
+```bash
+docker compose logs -f frontend
+```
+
+### 7. Stop the application
+
+```bash
+docker compose down
+```
+
+The MySQL data is stored in a Docker volume, so a normal `docker compose down` does not delete the database.
+
+To start the application again:
+
+```bash
+docker compose up -d
+```
+
+## Development with Docker
+
+The frontend and backend source directories are mounted into their containers.
+
+This allows source code changes to be detected while the containers are running.
+
+If dependencies or Docker configuration change, rebuild the project:
+
+```bash
+docker compose up -d --build
+```
+
+## Environment Variables
+
+Example environment files are included in the repository:
+
+```text
+backend/.env.example
+frontend/.env.example
+```
+
+Do not commit real passwords, JWT secrets, SMTP credentials, or other private values.
+
+Docker Compose provides development defaults required to run the core application.
+
+Email-based password recovery requires valid SMTP configuration in:
+
+```text
+backend/.env
+```
+
+## Useful Docker Commands
+
+Start:
+
+```bash
+docker compose up -d
+```
+
+Start and rebuild:
+
+```bash
+docker compose up -d --build
+```
+
+Check status:
+
+```bash
+docker compose ps
+```
+
+View logs:
+
+```bash
+docker compose logs -f
+```
+
+Stop:
+
+```bash
+docker compose down
+```
+
+## Project Structure
+
+```text
+ai-reception-project/
+├── backend/
+│   ├── controllers/
+│   ├── middlewares/
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── Dockerfile
+│   └── .env.example
+│
+├── frontend/
+│   ├── src/
+│   │   ├── app/
+│   │   ├── entities/
+│   │   ├── pages/
+│   │   ├── shared/
+│   │   └── widgets/
+│   ├── Dockerfile
+│   └── .env.example
+│
+├── docker-compose.yml
+└── README.md
+```
+
+## Development Status
+
+This project was developed as a full-stack educational project demonstrating:
+
+- relational database design
+- REST API development
+- CRUD operations
+- JWT authentication
+- protected routes
+- Sequelize relationships
+- many-to-many relationships
+- React and TypeScript
+- RTK Query
+- client-side routing
+- Docker containerization
