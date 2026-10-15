@@ -1,5 +1,9 @@
 # AI Reception
 
+**Live Demo:** https://ai-reception-frontend-ekaterina.onrender.com
+
+**GitHub:** https://github.com/HGFDS111/ai-reception-project
+
 AI Reception is a full-stack web application for managing and simulating an AI receptionist for different types of businesses.
 
 The application allows users to create businesses, configure services and dialogue scripts, manage clients and call sessions, and test receptionist conversations through an interactive simulator.
